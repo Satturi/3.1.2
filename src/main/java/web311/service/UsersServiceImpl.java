@@ -1,15 +1,22 @@
 package web311.service;
 
+import org.hibernate.Session;
+import org.hibernate.SessionFactory;
 import org.springframework.stereotype.Service;
-import org.springframework.transaction.annotation.Transactional;
 import web311.dao.DAO;
 import web311.models.Users;
 
+
+import org.springframework.transaction.annotation.Transactional;
+
+
+
 import java.util.List;
+import java.util.Optional;
 
 @Service
-
-public class UsersServiceImpl implements  UsersService{
+@Transactional(readOnly = true)
+public class UsersServiceImpl {
 
     private final DAO dao;
 
@@ -17,33 +24,30 @@ public class UsersServiceImpl implements  UsersService{
     public UsersServiceImpl(DAO dao) {
         this.dao = dao;
     }
-    @Override
     @Transactional(readOnly = true)
     public List<Users> index() {
-        return dao.index();
+        return dao.findAll();
     }
 
-    @Override
     @Transactional(readOnly = true)
     public Users show(int id) {
-        return dao.show(id);
+        Optional<Users> foundPerson = dao.findById(id);
+        return foundPerson.orElse(null);
     }
 
-    @Override
     @Transactional
     public void save(Users user) {
         dao.save(user);
     }
 
-    @Override
     @Transactional
     public void delete(int id) {
-        dao.delete(id);
+        dao.deleteById(id);
     }
 
-    @Override
     @Transactional
     public void update(int id, Users user) {
-        dao.update(id, user);
+        user.setId(id);
+        dao.save(user);
     }
 }

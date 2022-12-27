@@ -5,7 +5,7 @@ import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
 import web311.models.Users;
-import web311.service.UsersService;
+import web311.service.UsersServiceImpl;
 
 import javax.validation.Valid;
 
@@ -14,10 +14,10 @@ import javax.validation.Valid;
 @RequestMapping("/people")
 public class UsersController {
 
-    private final UsersService usersDAO;
+    private final UsersServiceImpl usersDAO;
 
 
-    public UsersController(UsersService usersDAO) {
+    public UsersController(UsersServiceImpl usersDAO) {
         this.usersDAO = usersDAO;
     }
 
